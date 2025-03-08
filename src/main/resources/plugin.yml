@@ -1,0 +1,5 @@
+name: QLTML
+version: '${version}'
+main: com.spectrasonic.QLTML.Main
+api-version: '1.21'
+authors: [Spectrasonic]
