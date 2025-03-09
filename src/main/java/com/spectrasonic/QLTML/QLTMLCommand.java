@@ -32,6 +32,7 @@ public class QLTMLCommand extends BaseCommand {
     }
 
     @Subcommand("give")
+    @Syntax("stick")
     @CommandCompletion("stick")
     public void onGiveStick(CommandSender sender) {
         if (!(sender instanceof Player)) {
