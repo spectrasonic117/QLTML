@@ -48,17 +48,17 @@ dependencies {
 shadowJar {
     relocate "co.aikar.commands", "com.spectrasonic.QLTML.acf"
     relocate "co.aikar.locales", "com.spectrasonic.QLTML.locales"
-    destinationDirectory = file("/out")
+    // destinationDirectory = file("/out")
     // archiveFileName = "DiscGlowing-.jar" 
 }
 
 build.dependsOn shadowJar
 
-task cleanOut(type: Delete) {
-    delete fileTree("/out") 
-}
+// task cleanOut(type: Delete) {
+//     delete fileTree("/out") 
+// }
 
-build.dependsOn cleanOut
+// build.dependsOn cleanOut
 
 def targetJavaVersion = "21"
 java {
