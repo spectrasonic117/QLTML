@@ -60,8 +60,8 @@ public final class MessageUtils {
                 PREFIX + "⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿",
                 PREFIX + "⡻⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿",
                 PREFIX + "⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟",
-                PREFIX + "⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠",
-                PREFIX + "⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙",
+                PREFIX + "⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠",
+                PREFIX + "⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙",
                 PREFIX + "⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣",
         };
 
@@ -71,9 +71,9 @@ public final class MessageUtils {
     }
 
     public static void sendBroadcastMessage(String message) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(miniMessage.deserialize(message));
-        }
+        Bukkit.getOnlinePlayers().forEach(player -> 
+            player.sendMessage(miniMessage.deserialize(message))
+        );
     }
 
     public static void sendShutdownMessage(JavaPlugin plugin) {
@@ -89,35 +89,28 @@ public final class MessageUtils {
     }
 
     public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-    final Component titleComponent = miniMessage.deserialize(PREFIX + title);
-    final Component subtitleComponent = miniMessage.deserialize(PREFIX + subtitle);
-    player.showTitle(Title.title(titleComponent, subtitleComponent, Times.times(
-        Duration.ofMillis(fadeIn * 50L),
-        Duration.ofMillis(stay * 50L),
-        Duration.ofMillis(fadeOut * 50L)
-    )));
-}
+        final Component titleComponent = miniMessage.deserialize(title);
+        final Component subtitleComponent = miniMessage.deserialize(subtitle);
+        player.showTitle(Title.title(titleComponent, subtitleComponent, Times.times(
+            Duration.ofMillis(fadeIn * 50L),
+            Duration.ofMillis(stay * 50L),
+            Duration.ofMillis(fadeOut * 50L)
+        )));
+    }
 
     public static void sendActionBar(Player player, String message) {
         player.sendActionBar(miniMessage.deserialize(PREFIX + message));
     }
 
     public static void broadcastTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        final Component titleComponent = miniMessage.deserialize(PREFIX + title);
-        final Component subtitleComponent = miniMessage.deserialize(PREFIX + subtitle);
+        final Component titleComponent = miniMessage.deserialize(title);
+        final Component subtitleComponent = miniMessage.deserialize(subtitle);
         final Title formattedTitle = Title.title(titleComponent, subtitleComponent, Times.times(
             Duration.ofMillis(fadeIn * 50L),
             Duration.ofMillis(stay * 50L),
             Duration.ofMillis(fadeOut * 50L)
         ));
 
-        // Uso - Send Title to players
-        // MiniMessageUtils.sendTitle(player, 
-        //     "<gold>¡Alerta!</gold>", 
-        //     "<red>Mensaje importante</red>", 
-        //     2, 40, 2
-        // );
-        
         Bukkit.getOnlinePlayers().forEach(player -> player.showTitle(formattedTitle));
     }
 
@@ -125,8 +118,4 @@ public final class MessageUtils {
         final Component component = miniMessage.deserialize(PREFIX + message);
         Bukkit.getOnlinePlayers().forEach(player -> player.sendActionBar(component));
     }
-
-    // Uso Broadcast ActionBAR
-    // MiniMessageUtils.broadcastActionBar("<yellow>¡Evento especial activado!</yellow>");
-
 }

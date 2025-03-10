@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SoundUtils {
 
@@ -17,8 +16,8 @@ public final class SoundUtils {
     }
 
     public static void broadcastPlayerSound(Sound sound, float volume, float pitch) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player, sound, SoundCategory.MASTER, volume, pitch);
-        }
+        Bukkit.getOnlinePlayers().forEach(player -> 
+            player.playSound(player, sound, SoundCategory.MASTER, volume, pitch)
+        );
     }
 }
