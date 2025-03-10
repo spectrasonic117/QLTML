@@ -36,8 +36,8 @@ public class QLTMLCommand extends BaseCommand {
                 for (String message : startMessages) {
                     Bukkit.broadcast(MiniMessage.miniMessage().deserialize(message));
                 }
-                MessageUtils.broadcastTitle("<yellow>QLTML", "1.2", 1, 2, 1);
-                SoundUtils.broadcastPlayerSound(Sound.BLOCK_NOTE_BLOCK_BANJO, 1.0f, 1.0f);
+                MessageUtils.broadcastTitle("<yellow><bold>QLTML", " ", 1, 2, 1);
+                SoundUtils.broadcastPlayerSound(Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
             }
         } else if (state.equalsIgnoreCase("off")) {
             plugin.setGameActive(false);
@@ -61,7 +61,7 @@ public class QLTMLCommand extends BaseCommand {
         if (item.equalsIgnoreCase("stick")) {
             ItemBuilder flyingStick = ItemBuilder.setMaterial("stick")
                     .setName("<gold><bold>Palo Volador")
-                    .setLore("")
+                    .setLore(" ")
                     .setLore("<white>Un palo mágico que te hace volar", 
                              "<white>¡Golpea a tus enemigos para verlos salir volando!")
                     .addEnchantment("knockback", 5)

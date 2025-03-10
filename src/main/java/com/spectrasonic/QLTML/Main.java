@@ -18,11 +18,9 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         loadMappings();
-        // Registrar comando utilizando ACF de Aikar
-        PaperCommandManager manager = new PaperCommandManager(this);
-        manager.registerCommand(new QLTMLCommand(this));
-        // Registrar listener para capturar el chat
-        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        registerCommands();
+        registerEvents();
+        
         MessageUtils.sendStartupMessage(this);
     }
 
@@ -31,6 +29,15 @@ public final class Main extends JavaPlugin {
         MessageUtils.sendShutdownMessage(this);
     }
 
+
+    public void registerCommands() {
+        PaperCommandManager manager = new PaperCommandManager(this);
+        manager.registerCommand(new QLTMLCommand(this));
+    }
+
+    public void registerEvents() {
+        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+    }
     public boolean isGameActive() {
         return gameActive;
     }
@@ -40,7 +47,6 @@ public final class Main extends JavaPlugin {
     }
 
     public Material getMaterialForLetter(char letter) {
-        // Se tratan las letras de forma insensible a mayúsculas/minúsculas
         return letterMapping.getOrDefault(Character.toLowerCase(letter), Material.STONE);
     }
 
@@ -54,7 +60,6 @@ public final class Main extends JavaPlugin {
                 }
                 try {
                     Material mat = Material.valueOf(section.getString(key).toUpperCase());
-                    // Convertir la letra a minúscula para almacenarla siempre de la misma forma
                     letterMapping.put(key.toLowerCase().charAt(0), mat);
                 } catch (IllegalArgumentException e) {
                     getLogger().warning("Material inválido para la letra " + key);
