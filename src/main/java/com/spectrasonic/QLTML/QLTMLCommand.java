@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import com.spectrasonic.QLTML.Utils.ItemBuilder;
 import com.spectrasonic.QLTML.Utils.MessageUtils;
 
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import com.spectrasonic.QLTML.Utils.SoundUtils;
@@ -32,10 +31,8 @@ public class QLTMLCommand extends BaseCommand {
                 plugin.setGameActive(true);
                 sender.sendMessage(MiniMessage.miniMessage().deserialize("<green>Minijuego activado"));
 
-                List<String> startMessages = plugin.getConfig().getStringList("Start_Messages");
-                for (String message : startMessages) {
-                    Bukkit.broadcast(MiniMessage.miniMessage().deserialize(message));
-                }
+            plugin.getConfig().getStringList("Start_Messages")
+            .forEach(message -> Bukkit.broadcast(MiniMessage.miniMessage().deserialize(message)));
                 MessageUtils.broadcastTitle("<yellow><bold>QLTML", " ", 1, 2, 1);
                 SoundUtils.broadcastPlayerSound(Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
             }

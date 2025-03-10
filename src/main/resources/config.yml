@@ -28,6 +28,7 @@ mappings:
     z: SMOOTH_STONE
 
 Start_Messages:
+    - "<gradient:#03ff31:#0fffa3:#03ff31><bold>Quién la tiene más larga</gradient>"
     - "------------------------"
     - " "
     - "A partir de ahora, todo lo que escribas en el chat se generará un pilar vertical con las letras de la palabra que hayas escrito."
