@@ -92,9 +92,9 @@ public final class MessageUtils {
         final Component titleComponent = miniMessage.deserialize(title);
         final Component subtitleComponent = miniMessage.deserialize(subtitle);
         player.showTitle(Title.title(titleComponent, subtitleComponent, Times.times(
-            Duration.ofMillis(fadeIn * 50L),
-            Duration.ofMillis(stay * 50L),
-            Duration.ofMillis(fadeOut * 50L)
+            Duration.ofSeconds(fadeIn),
+            Duration.ofSeconds(stay),
+            Duration.ofSeconds(fadeOut)
         )));
     }
 
@@ -106,9 +106,9 @@ public final class MessageUtils {
         final Component titleComponent = miniMessage.deserialize(title);
         final Component subtitleComponent = miniMessage.deserialize(subtitle);
         final Title formattedTitle = Title.title(titleComponent, subtitleComponent, Times.times(
-            Duration.ofMillis(fadeIn * 50L),
-            Duration.ofMillis(stay * 50L),
-            Duration.ofMillis(fadeOut * 50L)
+            Duration.ofSeconds(fadeIn),
+            Duration.ofSeconds(stay),
+            Duration.ofSeconds(fadeOut)
         ));
 
         Bukkit.getOnlinePlayers().forEach(player -> player.showTitle(formattedTitle));

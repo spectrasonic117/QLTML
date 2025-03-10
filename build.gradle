@@ -48,7 +48,7 @@ dependencies {
 shadowJar {
     relocate "co.aikar.commands", "com.spectrasonic.QLTML.acf"
     relocate "co.aikar.locales", "com.spectrasonic.QLTML.locales"
-    destinationDirectory = file("/out")
+    // destinationDirectory = file("/out")
     // archiveFileName = "DiscGlowing-.jar" 
 }
 
