@@ -1,8 +1,9 @@
 package com.spectrasonic.QLTML;
 
+import com.spectrasonic.QLTML.Utils.TeamManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +39,15 @@ public class ChatListener implements Listener {
             }
             
             Location topLoc = base.clone().add(0, length, 0);
-            topLoc.getBlock().setType(Material.GREEN_WOOL);
+            
+            // Use team wool color for the top block if player is in a team
+            String teamName = TeamManager.getPlayerTeam(player);
+            if (teamName != null) {
+                Material teamWool = TeamManager.getTeamWool(teamName);
+                topLoc.getBlock().setType(teamWool);
+            } else {
+                topLoc.getBlock().setType(Material.GREEN_WOOL);
+            }
             
             Location teleportLoc = topLoc.clone().add(0.5, 1, 0.5);
             player.teleport(teleportLoc);

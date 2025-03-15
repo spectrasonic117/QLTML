@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.spectrasonic"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     gradlePluginPortal()
@@ -48,8 +48,8 @@ dependencies {
 shadowJar {
     relocate "co.aikar.commands", "com.spectrasonic.QLTML.acf"
     relocate "co.aikar.locales", "com.spectrasonic.QLTML.locales"
-    // destinationDirectory = file("/out")
-    // archiveFileName = "DiscGlowing-.jar" 
+    destinationDirectory = file("${rootDir}/out")
+    archiveFileName = "${rootProject.name}-${version}.jar" 
 }
 
 build.dependsOn shadowJar
