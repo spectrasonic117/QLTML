@@ -40,7 +40,6 @@ public class ChatListener implements Listener {
             
             Location topLoc = base.clone().add(0, length, 0);
             
-            // Use team wool color for the top block if player is in a team
             String teamName = TeamManager.getPlayerTeam(player);
             if (teamName != null) {
                 Material teamWool = TeamManager.getTeamWool(teamName);

@@ -1,6 +1,5 @@
 package com.spectrasonic.QLTML.Utils;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

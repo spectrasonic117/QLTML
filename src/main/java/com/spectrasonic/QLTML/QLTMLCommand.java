@@ -24,7 +24,7 @@ import com.spectrasonic.QLTML.Utils.SoundUtils;
 public class QLTMLCommand extends BaseCommand {
     private final Main plugin;
 
-    @Subcommand("game")
+        @Subcommand("game")
     @Syntax("<on|off>")
     @CommandCompletion("on|off")
     public void onGame(CommandSender sender, String state) {
@@ -33,7 +33,6 @@ public class QLTMLCommand extends BaseCommand {
                 plugin.setGameActive(true);
                 sender.sendMessage(MiniMessage.miniMessage().deserialize("<green>Minijuego activado"));
 
-                // Initialize team manager when game is activated
                 TeamManager.initialize();
 
                 plugin.getConfig().getStringList("Start_Messages")
@@ -41,16 +40,28 @@ public class QLTMLCommand extends BaseCommand {
                 MessageUtils.broadcastTitle("<yellow><bold>QLTML", " ", 1, 2, 1);
                 SoundUtils.broadcastPlayerSound(Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 
-                // Open team selection GUI for all online players
                 Bukkit.getOnlinePlayers().forEach(player -> {
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
                         TeamSelectorGUI.openTeamSelector(player);
-                    }, 40L); // Delay of 2 seconds
+                    }, 40L);
                 });
             }
         } else if (state.equalsIgnoreCase("off")) {
             plugin.setGameActive(false);
+            
+            int count = TeamManager.clearAllTeams();
+            
             sender.sendMessage(MiniMessage.miniMessage().deserialize("<red>Minijuego desactivado"));
+            
+            if (count > 0) {
+                sender.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Se han eliminado " + count + " jugadores de todos los equipos"));
+                
+                Bukkit.getOnlinePlayers().forEach(player -> 
+                    player.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Todos los equipos han sido reiniciados"))
+                );
+                
+                SoundUtils.broadcastPlayerSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
+            }
         } else {
             sender.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Uso: /qltml game <on|off>"));
         }
@@ -70,7 +81,6 @@ public class QLTMLCommand extends BaseCommand {
             return;
         }
         
-        // Open team selection GUI
         TeamSelectorGUI.openTeamSelector(player);
         player.sendMessage(MiniMessage.miniMessage().deserialize("<green>Selecciona un equipo"));
     }
@@ -115,12 +125,10 @@ public class QLTMLCommand extends BaseCommand {
         
         sender.sendMessage(MiniMessage.miniMessage().deserialize("<green>Se han eliminado " + count + " jugadores de todos los equipos"));
         
-        // Notify all players
         Bukkit.getOnlinePlayers().forEach(player -> 
             player.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Todos los equipos han sido reiniciados"))
         );
         
-        // Play sound to all players
         SoundUtils.broadcastPlayerSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
     }
 }
