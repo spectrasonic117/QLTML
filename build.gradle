@@ -22,6 +22,9 @@ repositories {
         name = "aikar"
         url = "https://repo.aikar.co/content/groups/aikar/"
     }
+
+    maven { url 'https://maven.enginehub.org/repo/' } // Para WorldEdit
+    maven { url 'https://repo.papermc.io/repository/maven-public/' } // Para FAWE
 }
 
 dependencies {
@@ -40,6 +43,11 @@ dependencies {
     // Minimessage - Adventure  
     implementation "net.kyori:adventure-text-minimessage:4.19.0"
     implementation "net.kyori:adventure-api:4.19.0"
+
+    // WorldEdit
+    compileOnly 'com.fastasyncworldedit:FastAsyncWorldEdit-Core:2.12.3'
+    compileOnly 'com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:2.12.3'
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.3.9'
 
 }
 
