@@ -8,8 +8,11 @@ commands:
     qltml:
         usage: /qltml <game on|off>
         description: Comando para activar o desactivar el minijuego QLTML.
+        permission: qltml.bypass
 
 permissions:
     qltml.bypass:
         description: Permite al host del evento evitar la generación del pilar.
         default: op
+    qltml.team:
+        default: true

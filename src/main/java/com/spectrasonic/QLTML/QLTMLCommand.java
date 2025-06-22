@@ -43,7 +43,7 @@ import java.util.concurrent.CompletableFuture;
 @CommandAlias("qltml")
 public class QLTMLCommand extends BaseCommand {
 
-    private static final BlockVector3 PASTE_POSITION = BlockVector3.at(0, -64, 0);
+    private static final BlockVector3 PASTE_POSITION = BlockVector3.at(0, 64, 0);
     
     private final Main plugin;
 
@@ -61,7 +61,8 @@ public class QLTMLCommand extends BaseCommand {
 
                 plugin.getConfig().getStringList("Start_Messages")
                 .forEach(message -> Bukkit.broadcast(MiniMessage.miniMessage().deserialize(message)));
-                MessageUtils.broadcastTitle("<yellow><bold>QLTML", " ", 1, 2, 1);
+                MessageUtils.broadcastTitle("<yellow><bold>QLTML", "<#C6C7E5>Aleah Aldebaran <white>& <#F48ED8>YumiYui", 1, 3, 1);
+                MessageUtils.broadcastActionBar("<b><white>Developed by <#CB032C>Spectrasonic</b>");
                 SoundUtils.broadcastPlayerSound(Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 
                 Bukkit.getOnlinePlayers().forEach(player -> {
@@ -89,6 +90,7 @@ public class QLTMLCommand extends BaseCommand {
     }
 
     @Subcommand("team")
+    @CommandPermission("qltml.team")
     public void onTeam(CommandSender sender) {
         if (!(sender instanceof Player)) {
             MessageUtils.sendMessage(sender, "<red>Este comando solo puede ser usado por jugadores");
