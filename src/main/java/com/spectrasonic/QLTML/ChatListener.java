@@ -8,14 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class ChatListener implements Listener {
 
     private final Main plugin;
-
-    public ChatListener(Main plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {

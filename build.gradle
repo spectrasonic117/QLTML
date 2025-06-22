@@ -1,11 +1,11 @@
 plugins {
-    // id("io.papermc.paperweight.userdev") version "2.0.0-beta.14"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.16"
     id "com.gradleup.shadow" version "9.0.0-beta10"
     id "java"
 }
 
 group = "com.spectrasonic"
-version = "1.0.4"
+version = "1.0.5"
 
 repositories {
     gradlePluginPortal()
@@ -25,7 +25,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT") // Paper
+    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+    // compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT") // Paper
 
     // ACF Aikar
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
@@ -36,13 +37,10 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:1.18.36"
     testAnnotationProcessor "org.projectlombok:lombok:1.18.36"
 
-    // Minimessage - Adventure
+    // Minimessage - Adventure  
     implementation "net.kyori:adventure-text-minimessage:4.19.0"
     implementation "net.kyori:adventure-api:4.19.0"
-    // implementation "net.kyori:adventure-text-serializer-legacy:4.19.0" // Legacy
 
-    // Paperweight
-    // paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 }
 
 shadowJar {
@@ -53,6 +51,8 @@ shadowJar {
 }
 
 build.dependsOn shadowJar
+build.finalizedBy reobfJar
+
 
 // task cleanOut(type: Delete) {
 //     delete fileTree("/out") 

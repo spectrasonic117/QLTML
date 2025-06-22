@@ -10,14 +10,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class TeamSelectorListener implements Listener {
     
     private final Main plugin;
-    
-    public TeamSelectorListener(Main plugin) {
-        this.plugin = plugin;
-    }
     
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {

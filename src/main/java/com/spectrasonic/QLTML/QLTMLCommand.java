@@ -18,13 +18,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import com.spectrasonic.QLTML.Utils.SoundUtils;
 
-
 @RequiredArgsConstructor
 @CommandAlias("qltml")
 public class QLTMLCommand extends BaseCommand {
     private final Main plugin;
 
-        @Subcommand("game")
+    @Subcommand("game")
     @Syntax("<on|off>")
     @CommandCompletion("on|off")
     public void onGame(CommandSender sender, String state) {
@@ -116,19 +115,48 @@ public class QLTMLCommand extends BaseCommand {
     
     @Subcommand("clearteams")
     public void onClearTeams(CommandSender sender) {
-        if (!sender.hasPermission("qltml.admin")) {
+        if (!sender.hasPermission("qltml.bypass")) {
             sender.sendMessage(MiniMessage.miniMessage().deserialize("<red>No tienes permiso para usar este comando"));
             return;
         }
-        
+
         int count = TeamManager.clearAllTeams();
-        
+
         sender.sendMessage(MiniMessage.miniMessage().deserialize("<green>Se han eliminado " + count + " jugadores de todos los equipos"));
-        
-        Bukkit.getOnlinePlayers().forEach(player -> 
+
+        Bukkit.getOnlinePlayers().forEach(player ->
             player.sendMessage(MiniMessage.miniMessage().deserialize("<yellow>Todos los equipos han sido reiniciados"))
         );
-        
+
         SoundUtils.broadcastPlayerSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
+    }
+
+    @Subcommand("givefeather")
+    public void onGiveFeather(CommandSender sender) {
+        if (!sender.hasPermission("qltml.bypass")) {
+            sender.sendMessage(MiniMessage.miniMessage().deserialize("<red>No tienes permiso para usar este comando"));
+            return;
+        }
+
+        ItemBuilder flightFeather = ItemBuilder.setMaterial("feather")
+                .setName("<gradient:#DADCF5:#B6BBEC><b>Pluma de Vuelo</b></gradient>")
+                .setLore(
+                    "<gold>「Objeto Épico」",
+                    "<#95b2b8>-----------------",
+                    "<#b784b8>Mantén esta pluma",
+                    "<#b784b8>en tu mano principal",
+                    "<#b784b8>para volar",
+                    "<#95b2b8>-----------------"
+                )
+                .setCustomModelData(100);
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (!player.hasPermission("qltml.bypass")) {
+                player.getInventory().addItem(flightFeather.build());
+                player.sendMessage(MiniMessage.miniMessage().deserialize("<green>Has recibido una <gradient:#DADCF5:#B6BBEC>Pluma de Vuelo</gradient>!"));
+            }
+        });
+
+        sender.sendMessage(MiniMessage.miniMessage().deserialize("<green>Plumas de Vuelo han sido dadas a todos los jugadores"));
     }
 }

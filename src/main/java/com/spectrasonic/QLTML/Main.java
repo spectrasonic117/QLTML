@@ -38,6 +38,7 @@ public final class Main extends JavaPlugin {
     public void registerEvents() {
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new TeamSelectorListener(this), this);
+        getServer().getPluginManager().registerEvents(new FlightListener(this), this);
     }
 
     public boolean isGameActive() {
