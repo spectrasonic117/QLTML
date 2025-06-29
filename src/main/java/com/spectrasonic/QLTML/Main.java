@@ -15,6 +15,7 @@ public final class Main extends JavaPlugin {
     private boolean gameActive = false;
     private final Map<Character, Material> letterMapping = new HashMap<>();
     private ConfigManager configManager;
+    private MapResetService mapResetService;
 
     @Override
     public void onEnable() {
@@ -24,6 +25,8 @@ public final class Main extends JavaPlugin {
         loadMappings();
         registerCommands();
         registerEvents();
+        
+        mapResetService = new MapResetService(this);
         
         MessageUtils.sendStartupMessage();
     }
@@ -60,6 +63,10 @@ public final class Main extends JavaPlugin {
 
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+
+    public MapResetService getMapResetService() {
+        return mapResetService;
     }
 
     public Material getMaterialForLetter(char letter) {
