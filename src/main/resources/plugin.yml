@@ -6,13 +6,20 @@ authors: [Spectrasonic]
 depend: [FastAsyncWorldEdit]
 commands:
     qltml:
-        usage: /qltml <game on|off>
-        description: Comando para activar o desactivar el minijuego QLTML.
-        permission: qltml.bypass
+        usage: /qltml <subcommand>
+        description: Comando principal del plugin QLTML.
+        permission: qltml.command
 
 permissions:
+    qltml.command:
+        description: Permiso para usar el comando /qltml.
+        default: true
     qltml.bypass:
         description: Permite al host del evento evitar la generación del pilar.
         default: op
     qltml.team:
+        description: Permiso para usar el comando /qltml team.
         default: true
+    qltml.reload:
+        description: Permiso para recargar la configuración del plugin.
+        default: op

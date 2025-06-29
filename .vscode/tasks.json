@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "gradle",
+            "id": "/Users/spectra/Documents/IntelliJ/QLTMLbuildQLTML",
+            "script": "build",
+            "description": "Assembles and tests this project.",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "project": "QLTML",
+            "buildFile": "/Users/spectra/Documents/IntelliJ/QLTML/build.gradle",
+            "rootProject": "QLTML",
+            "projectFolder": "/Users/spectra/Documents/IntelliJ/QLTML",
+            "workspaceFolder": "/Users/spectra/Documents/IntelliJ/QLTML",
+            "args": "",
+            "javaDebug": false,
+            "problemMatcher": [
+                "$gradle"
+            ],
+            "label": "gradle: build"
+        }
+    ]
+}

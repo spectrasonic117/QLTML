@@ -1,0 +1,61 @@
+# --------------------------------------------------------------------------------- #
+#                                                                                   #
+#                            QLTML Plugin Messages File                             #
+#                                                                                   #
+#       You can use MiniMessage format for all messages.                            #
+#       Online editor: https://webui.advntr.dev/                                    #
+#                                                                                   #
+# --------------------------------------------------------------------------------- #
+
+# General plugin messages
+plugin:
+    prefix: "<gray>[<gold>QLTML</gold>]</gray> <gold>»</gold> "
+    reload: "<green>La configuración del plugin ha sido recargada."
+    no-permission: "<red>No tienes permiso para usar este comando."
+    player-only: "<red>Este comando solo puede ser usado por jugadores."
+    unknown-item: "<red>Item desconocido: {item}"
+
+# Game state messages
+game:
+    activated: "<green>Minijuego activado."
+    deactivated: "<red>Minijuego desactivado."
+    not-active: "<red>El minijuego no está activo."
+    usage: "<yellow>Uso: /qltml game <on|off>"
+
+    # Messages broadcasted on game start
+    start-broadcast:
+        - "<gradient:#03ff31:#0fffa3:#03ff31><bold>Quién la tiene más larga</gradient>"
+        - "------------------------"
+        - " "
+        - "A partir de ahora, todo lo que escribas en el chat se generará un pilar vertical con las letras de la palabra que hayas escrito."
+        - " "
+        - "El primer jugador en llegar a la meta ganará la partida"
+
+    # Titles and action bars on game start
+    start-title:
+        title: "<#E7437C><b>elHero</b></#E7437C>"
+        subtitle: "<gradient:#B7F9D5:#BEFB7A:#B7F9D5><b>Quien La Tiene Mas Larga</b></gradient>"
+        # title: "<yellow><bold>QLTML"
+        # subtitle: "<#C6C7E5>Aleah Aldebaran <white>& <#F48ED8>YumiYui"
+    start-action-bar: "<b><white>Developed by <#CB032C>Spectrasonic</b>"
+
+# Team related messages
+team:
+    select: "<green>Selecciona un equipo."
+    joined: "<green>Te has unido al equipo <{color}>{team_name}</green>!"
+    all-cleared: "<yellow>Todos los equipos han sido reiniciados."
+
+# Item related messages
+items:
+    flying-stick-received: "<green>¡Has recibido un <red>Palo Volador</red>!"
+    flight-feather-received: "<green>Has recibido una <gradient:#DADCF5:#B6BBEC>Pluma de Vuelo</gradient>!"
+    flight-feathers-given: "<green>Plumas de Vuelo han sido dadas a todos los jugadores."
+
+# Map reset messages
+map:
+    reset-start: "<yellow>Iniciando reseteo del mapa, por favor espera..."
+    reset-success: "<green>Mapa reseteado correctamente!"
+    schematic-not-found: "<red>No se encontró el archivo schematic: {file}"
+    world-not-found: "<red>No se pudo obtener el mundo para pegar el schematic."
+    unsupported-format: "<red>Formato de schematic no soportado."
+    reset-error: "<red>Error al cargar o pegar el schematic: {error}"

@@ -1,9 +1,9 @@
 package com.spectrasonic.QLTML;
 
+import com.spectrasonic.QLTML.Utils.MessageUtils;
 import com.spectrasonic.QLTML.Utils.SoundUtils;
 import com.spectrasonic.QLTML.Utils.TeamManager;
 import com.spectrasonic.QLTML.Utils.TeamSelectorGUI;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,14 +33,15 @@ public class TeamSelectorListener implements Listener {
             if (teamName != null) {
                 // Set player's team
                 TeamManager.setPlayerTeam(player, teamName);
-                
+
                 // Send confirmation message
                 String formattedTeamName = teamName.replace("_", " ");
                 formattedTeamName = formattedTeamName.substring(0, 1).toUpperCase() + formattedTeamName.substring(1);
                 
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<green>Te has unido al equipo <" + 
-                        getMinimessageColor(teamName) + ">" + formattedTeamName + "</green>!"));
-                
+                MessageUtils.sendConfigMessage(player, "team.joined", 
+                    "{color}", getMinimessageColor(teamName), 
+                    "{team_name}", formattedTeamName);
+
                 // Play sound
                 SoundUtils.playerSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
                 

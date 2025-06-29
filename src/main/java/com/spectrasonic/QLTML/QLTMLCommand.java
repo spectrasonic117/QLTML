@@ -7,7 +7,6 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Syntax;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -53,39 +52,35 @@ public class QLTMLCommand extends BaseCommand {
     @CommandPermission("qltml.bypass")
     public void onGame(CommandSender sender, String state) {
         if (state.equalsIgnoreCase("on")) {
-            {
-                plugin.setGameActive(true);
-                MessageUtils.sendMessage(sender, "<green>Minijuego activado");
+            plugin.setGameActive(true);
+            MessageUtils.sendConfigMessage(sender, "game.activated");
 
-                TeamManager.initialize();
+            TeamManager.initialize();
 
-                plugin.getConfig().getStringList("Start_Messages")
-                .forEach(message -> Bukkit.broadcast(MiniMessage.miniMessage().deserialize(message)));
-                MessageUtils.broadcastTitle("<yellow><bold>QLTML", "<#C6C7E5>Aleah Aldebaran <white>& <#F48ED8>YumiYui", 1, 3, 1);
-                MessageUtils.broadcastActionBar("<b><white>Developed by <#CB032C>Spectrasonic</b>");
-                SoundUtils.broadcastPlayerSound(Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
-                
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        TeamSelectorGUI.openTeamSelector(player);
-                    }, 40L);
-                });
-            }
+            MessageUtils.broadcastConfigMessageList("game.start-broadcast");
+            MessageUtils.broadcastConfigTitle("game.start-title.title", "game.start-title.subtitle", 1, 3, 1);
+            MessageUtils.broadcastConfigActionBar("game.start-action-bar");
+            SoundUtils.broadcastPlayerSound(Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
+
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    TeamSelectorGUI.openTeamSelector(player);
+                }, 40L);
+            });
         } else if (state.equalsIgnoreCase("off")) {
             plugin.setGameActive(false);
-            
+
             int count = TeamManager.clearAllTeams();
-            
-            MessageUtils.sendMessage(sender, "<red>Minijuego desactivado");
-            
+
+            MessageUtils.sendConfigMessage(sender, "game.deactivated");
+
             if (count > 0) {
-                MessageUtils.sendMessage(sender, "<yellow>Todos los equipos han sido reiniciados");
-                MessageUtils.sendBroadcastMessage("<yellow>Todos los equipos han sido reiniciados");
-                
+                MessageUtils.sendConfigMessage(sender, "team.all-cleared");
+                MessageUtils.sendBroadcastConfigMessage("team.all-cleared");
                 SoundUtils.broadcastPlayerSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
             }
         } else {
-            MessageUtils.sendMessage(sender, "<yellow>Uso: /qltml game <on|off>");
+            MessageUtils.sendConfigMessage(sender, "game.usage");
         }
     }
 
@@ -93,20 +88,19 @@ public class QLTMLCommand extends BaseCommand {
     @CommandPermission("qltml.team")
     public void onTeam(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            MessageUtils.sendMessage(sender, "<red>Este comando solo puede ser usado por jugadores");
+            MessageUtils.sendConfigMessage(sender, "plugin.player-only");
             return;
         }
-        
-        Player player = (Player) sender;
-        
-        if (!plugin.isGameActive()) {
-            MessageUtils.sendMessage(player, "<red>El minijuego no está activo");
-            return;
-        }
-        
-        TeamSelectorGUI.openTeamSelector(player);
-        MessageUtils.sendMessage(player, "<green>Selecciona un equipo");
 
+        Player player = (Player) sender;
+
+        if (!plugin.isGameActive()) {
+            MessageUtils.sendConfigMessage(player, "game.not-active");
+            return;
+        }
+
+        TeamSelectorGUI.openTeamSelector(player);
+        MessageUtils.sendConfigMessage(player, "team.select");
     }
 
     @Subcommand("give")
@@ -115,7 +109,7 @@ public class QLTMLCommand extends BaseCommand {
     @CommandPermission("qltml.bypass")
     public void onGive(CommandSender sender, String item) {
         if (!(sender instanceof Player)) {
-            MessageUtils.sendMessage(sender, "<red>Este comando solo puede ser usado por jugadores");
+            MessageUtils.sendConfigMessage(sender, "plugin.player-only");
             return;
         }
 
@@ -131,24 +125,24 @@ public class QLTMLCommand extends BaseCommand {
                     .setCustomModelData(1);
 
             player.getInventory().addItem(flyingStick.build());
-            MessageUtils.sendMessage(player, "<green>¡Has recibido un <red>Palo Volador</red>!");
+            MessageUtils.sendConfigMessage(player, "items.flying-stick-received");
         } else {
-            MessageUtils.sendMessage(player, "<red>Item desconocido: " + item);
+            MessageUtils.sendConfigMessage(player, "plugin.unknown-item", "{item}", item);
         }
     }
-    
+
     @Subcommand("clearteams")
     @CommandPermission("qltml.bypass")
     public void onClearTeams(CommandSender sender) {
         if (!sender.hasPermission("qltml.bypass")) {
-            MessageUtils.sendMessage(sender, "<red>No tienes permiso para usar este comando");
+            MessageUtils.sendPermissionMessage(sender);
             return;
         }
 
-        int count = TeamManager.clearAllTeams();
+        TeamManager.clearAllTeams();
 
-        MessageUtils.sendMessage(sender, "<green>Se han eliminado " + count + " jugadores de todos los equipos");                
-        MessageUtils.sendBroadcastMessage("<yellow>Todos los equipos han sido reiniciados");
+        MessageUtils.sendConfigMessage(sender, "team.all-cleared");
+        MessageUtils.sendBroadcastConfigMessage("team.all-cleared");
         SoundUtils.broadcastPlayerSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
     }
 
@@ -156,7 +150,7 @@ public class QLTMLCommand extends BaseCommand {
     @CommandPermission("qltml.bypass")
     public void onGiveFeather(CommandSender sender) {
         if (!sender.hasPermission("qltml.bypass")) {
-            MessageUtils.sendMessage(sender, "<red>No tienes permiso para usar este comando");
+            MessageUtils.sendPermissionMessage(sender);
             return;
         }
 
@@ -175,82 +169,65 @@ public class QLTMLCommand extends BaseCommand {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (!player.hasPermission("qltml.bypass")) {
                 player.getInventory().addItem(flightFeather.build());
-                MessageUtils.sendMessage(player, "<green>Has recibido una <gradient:#DADCF5:#B6BBEC>Pluma de Vuelo</gradient>!");
+                MessageUtils.sendConfigMessage(player, "items.flight-feather-received");
             }
         });
-        MessageUtils.sendMessage(sender, "<green>Plumas de Vuelo han sido dadas a todos los jugadores");
+        MessageUtils.sendConfigMessage(sender, "items.flight-feathers-given");
     }
 
     @Subcommand("resetmap")
     @CommandPermission("qltml.bypass")
     public void onResetMap(CommandSender sender) {
-        // Permisos opcionales, si quieres puedes agregar chequeo aquí
         if (!(sender instanceof Player) && !(sender.hasPermission("qltml.bypass"))) {
-            MessageUtils.sendMessage(sender, "<red>No tienes permiso para usar este comando");
+            MessageUtils.sendPermissionMessage(sender);
             return;
         }
 
-        MessageUtils.sendMessage(sender, "<yellow>Iniciando reseteo del mapa, por favor espera...");
+        MessageUtils.sendConfigMessage(sender, "map.reset-start");
 
-        // Ejecutar la carga y pegado async para no bloquear el servidor
         CompletableFuture.runAsync(() -> {
             try {
-                // Ruta del schematic
                 File schematicFile = new File("plugins/FastAsyncWorldEdit/schematics/qltml_map.schem");
                 if (!schematicFile.exists()) {
-                    MessageUtils.sendMessage(sender, "<red>No se encontró el archivo schematic: qltml_map.schem");
+                    MessageUtils.sendConfigMessage(sender, "map.schematic-not-found", "{file}", "qltml_map.schem");
                     return;
                 }
 
-                // Obtener mundo del servidor (usar el primer mundo cargado, o cambiar según necesidad)
                 org.bukkit.World bukkitWorld = Bukkit.getWorlds().get(0);
                 if (bukkitWorld == null) {
-
-                    MessageUtils.sendMessage(sender, "<red>No se pudo obtener el mundo para pegar el schematic");
+                    MessageUtils.sendConfigMessage(sender, "map.world-not-found");
                     return;
                 }
 
-                // Adaptar el mundo a WorldEdit
                 World weWorld = BukkitAdapter.adapt(bukkitWorld);
-
-                // Leer schematic con WorldEdit API
                 ClipboardFormat format = ClipboardFormats.findByFile(schematicFile);
                 if (format == null) {
-                    MessageUtils.sendMessage(sender, "<red>Formato de schematic no soportado");
+                    MessageUtils.sendConfigMessage(sender, "map.unsupported-format");
                     return;
                 }
 
                 try (ClipboardReader reader = format.getReader(new FileInputStream(schematicFile))) {
                     Clipboard clipboard = reader.read();
-
-                    // Crear EditSession con un límite alto para permitir el pegado completo
                     try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(weWorld, -1)) {
-                        ClipboardHolder holder = new ClipboardHolder(clipboard);
-
-                        // Crear operación de pegado en la posición definida, con reemplazo de bloques (no solo aire)
-                        Operation operation = holder.createPaste(editSession)
+                        Operation operation = new ClipboardHolder(clipboard).createPaste(editSession)
                                 .to(PASTE_POSITION)
                                 .ignoreAirBlocks(false)
                                 .build();
-
-                        // Ejecutar la operación (bloqueante, pero estamos en async)
                         Operations.complete(operation);
-
-                        // Cerrar sesión para aplicar cambios
-                        editSession.flushQueue();
-
-                        // Informar éxito al jugador (en hilo principal)
-                        Bukkit.getScheduler().runTask(plugin, () -> {
-                            MessageUtils.sendMessage(sender, "<green>Mapa reseteado correctamente!");
-                        });
+                        Bukkit.getScheduler().runTask(plugin, () -> MessageUtils.sendConfigMessage(sender, "map.reset-success"));
                     }
                 }
             } catch (IOException | WorldEditException ex) {
-                Bukkit.getScheduler().runTask(plugin, () -> {
-                    MessageUtils.sendMessage(sender, "<red>Error al cargar o pegar el schematic: " + ex.getMessage());
-                });
+                Bukkit.getScheduler().runTask(plugin, () -> MessageUtils.sendConfigMessage(sender, "map.reset-error", "{error}", ex.getMessage()));
                 ex.printStackTrace();
             }
         });
+    }
+
+    @Subcommand("reload")
+    @CommandPermission("qltml.reload")
+    public void onReload(CommandSender sender) {
+        plugin.reloadPluginConfigs();
+        MessageUtils.sendConfigMessage(sender, "plugin.reload");
     }
 }

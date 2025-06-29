@@ -1,5 +1,6 @@
 package com.spectrasonic.QLTML;
 
+import com.spectrasonic.QLTML.Utils.ConfigManager;
 import com.spectrasonic.QLTML.Utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,20 +14,28 @@ public final class Main extends JavaPlugin {
 
     private boolean gameActive = false;
     private final Map<Character, Material> letterMapping = new HashMap<>();
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
+        configManager = new ConfigManager(this);
+        configManager.init();
+        MessageUtils.setPlugin(this);
         loadMappings();
         registerCommands();
         registerEvents();
         
-        MessageUtils.sendStartupMessage(this);
+        MessageUtils.sendStartupMessage();
     }
 
     @Override
     public void onDisable() {
-        MessageUtils.sendShutdownMessage(this);
+        MessageUtils.sendShutdownMessage();
+    }
+    
+    public void reloadPluginConfigs() {
+        configManager.reloadConfigs();
+        loadMappings();
     }
 
 
@@ -47,6 +56,10 @@ public final class Main extends JavaPlugin {
 
     public void setGameActive(boolean active) {
         this.gameActive = active;
+    }
+
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 
     public Material getMaterialForLetter(char letter) {
