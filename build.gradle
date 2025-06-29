@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.spectrasonic"
-version = "1.1.0-elHero"
+version = "1.1.1-elHero"
 
 repositories {
     gradlePluginPortal()
